@@ -43,6 +43,11 @@ namespace BookyApi
             services.AddLogging(options => options.AddConsole());
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<CurrentUserAccessor, CurrentUserAccessor>();
+            services.AddScoped((IServiceProvider services) =>
+            {
+                var userAccessor = services.GetService<CurrentUserAccessor>()!;
+                return userAccessor.CurrentUser().Result!;
+            });
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = false;

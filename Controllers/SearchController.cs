@@ -26,7 +26,8 @@ namespace BookyApi.Controllers
 
         [HttpGet("{query}")]
         public async Task<IEnumerable<Bookmark>> Search(
-            [FromRoute] string query
+            [FromRoute] string query,
+            [FromServices] User currentUser
         )
         {
             var table = Context.TableName<Bookmark>();
@@ -38,6 +39,7 @@ namespace BookyApi.Controllers
                     where instr(Content, '{query}') > 0
                     order by occurences desc
                 ")
+                .Where(b => b.UserId == currentUser.Id)
                 .ToListAsync();
         }
 

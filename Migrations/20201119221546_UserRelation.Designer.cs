@@ -3,41 +3,20 @@ using System;
 using BookyApi.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookyApi.Migrations
 {
     [DbContext(typeof(BookyContext))]
-    partial class BookyContextModelSnapshot : ModelSnapshot
+    [Migration("20201119221546_UserRelation")]
+    partial class UserRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.0");
-
-            modelBuilder.Entity("BookyApi.Models.Bookmark", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Bookmarks");
-                });
 
             modelBuilder.Entity("BookyApi.Models.User", b =>
                 {
@@ -231,13 +210,35 @@ namespace BookyApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BookyApi.Models.Bookmark", b =>
+            modelBuilder.Entity("BookyApi.Models.User", b =>
                 {
-                    b.HasOne("BookyApi.Models.User", "User")
-                        .WithMany("Bookmarks")
-                        .HasForeignKey("UserId");
+                    b.OwnsMany("BookyApi.Models.Bookmark", "Bookmarks", b1 =>
+                        {
+                            b1.Property<string>("UserId")
+                                .HasColumnType("TEXT");
 
-                    b.Navigation("User");
+                            b1.Property<int?>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Content")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Url")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("UserId", "Id");
+
+                            b1.ToTable("Bookmarks");
+
+                            b1.WithOwner("User")
+                                .HasForeignKey("UserId");
+
+                            b1.Navigation("User");
+                        });
+
+                    b.Navigation("Bookmarks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -289,11 +290,6 @@ namespace BookyApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookyApi.Models.User", b =>
-                {
-                    b.Navigation("Bookmarks");
                 });
 #pragma warning restore 612, 618
         }

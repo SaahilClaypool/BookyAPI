@@ -7,5 +7,6 @@ namespace BookyApi.Models
 {
     public class User : IdentityUser
     {
+        public IEnumerable<Bookmark> Bookmarks { get; set; } = null!;
     }
 }
