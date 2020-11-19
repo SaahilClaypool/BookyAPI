@@ -16,7 +16,7 @@ namespace BookyApi.Controllers
     [Route("[controller]")]
     public class BookmarkController : ControllerBase
     {
-        public BookmarkController(ILogger<BookmarkController> logger, Db.BookyContext context)
+        public BookmarkController(ILogger<BookmarkController> logger, BookyContext context)
         {
             Logger = logger;
             Context = context;
@@ -33,7 +33,7 @@ namespace BookyApi.Controllers
             [FromRoute] int id
         )
         {
-            return await Context.Bookmarks.Where(b => b.Id == id).FirstAsync();
+            return await Context.Bookmarks.FindAsync(id);
         }
 
 
