@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookyApi.Auth;
 using BookyApi.Db;
 using BookyApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookyApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class BookmarkController : ControllerBase

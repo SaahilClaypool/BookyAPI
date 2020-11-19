@@ -34,7 +34,7 @@ namespace BookyApi
         {
 
             services.AddControllers();
-            services.AddDbContext<Db.BookyContext>(options =>
+            services.AddDbContext<BookyContext>(options =>
             {
                 options.UseSqlite("DataSource=./app.db;Cache=Shared");
                 options.UseLoggerFactory(loggerFactory);
@@ -58,6 +58,17 @@ namespace BookyApi
                     Description = "Please insert JWT with Bearer into field",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
                 });
             });
         }

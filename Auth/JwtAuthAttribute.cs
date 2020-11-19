@@ -11,6 +11,12 @@ namespace BookyApi.Auth
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
+        public string? Roles { get; set; }
+        public AuthorizeAttribute(string? roles = null)
+        {
+            Roles = roles;
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = (User?)context.HttpContext.Items["User"];
