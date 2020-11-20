@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using FluentValidation;
+using BookyApi.Services.Extensions;
 
 namespace BookyApi.Controllers
 {
@@ -28,17 +29,16 @@ namespace BookyApi.Controllers
             [FromServices] User currentUser
         )
         {
-            return await Context.Entry(currentUser).Collection(u => u.Bookmarks).Query().ToListAsync();
+            return await currentUser.BookmarkQuery(Context).ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<Bookmark> Get(
             [FromRoute] int id,
-            [FromServices] CurrentUserAccessor currentUser
+            [FromServices] User currentUser
         )
         {
-            var user = (await currentUser.CurrentUser())!;
-            return await Context.Entry(user).Collection(user => user.Bookmarks).Query()
+            return await currentUser.BookmarkQuery(Context)
                 .Where(b => b.Id == id)
                 .FirstAsync();
         }

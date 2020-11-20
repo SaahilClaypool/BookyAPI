@@ -46,7 +46,7 @@ namespace BookyApi
             services.AddScoped((IServiceProvider services) =>
             {
                 var userAccessor = services.GetService<CurrentUserAccessor>()!;
-                return userAccessor.CurrentUser().Result!;
+                return userAccessor.CurrentUser() ?? throw new UnauthorizedAccessException();
             });
             services.AddIdentity<User, IdentityRole>(options =>
             {

@@ -1,4 +1,6 @@
+using System.Linq;
 using BookyApi.Db;
+using BookyApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookyApi.Services.Extensions
@@ -10,5 +12,8 @@ namespace BookyApi.Services.Extensions
             var entityType = context.Model.FindEntityType(typeof(T));
             return entityType.GetTableName();
         }
+
+        public static IQueryable<Bookmark> BookmarkQuery(this User user, BookyContext context) =>
+            context.Entry(user).Collection(user => user.Bookmarks).Query();
     }
 }

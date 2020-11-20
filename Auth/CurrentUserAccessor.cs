@@ -29,6 +29,6 @@ namespace BookyApi.Auth
             return await Context.Users.Where(user => user.Id == id).FirstAsync();
         }
 
-        public Task<User?> CurrentUser() => Task.FromResult((User?)HttpContextAccessor.HttpContext?.Items["User"]);
+        public User? CurrentUser() => (User?)HttpContextAccessor.HttpContext?.Items["User"];
     }
 }
