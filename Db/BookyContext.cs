@@ -12,7 +12,7 @@ namespace BookyApi.Db
         {
         }
 
-        public DbSet<Bookmark> Bookmarks { get; set; }
+        public DbSet<Bookmark> Bookmarks { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

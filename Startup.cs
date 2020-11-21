@@ -36,7 +36,7 @@ namespace BookyApi
             services.AddControllers();
             services.AddDbContext<BookyContext>(options =>
             {
-                options.UseSqlite("DataSource=./app.db;Cache=Shared");
+                options.UseNpgsql(Configuration.GetConnectionString("BookyDatabase"));
                 options.UseLoggerFactory(loggerFactory);
                 options.EnableSensitiveDataLogging();
             });
