@@ -34,10 +34,10 @@ namespace BookyApi.Controllers
             Logger.LogCritical(table);
             // TODO find way to put into postgres function
             return await Context.Bookmarks
-                .FromSqlRaw(@$"
-                    SELECT *, LENGTH(Content) - LENGTH(REPLACE(Content, '{query}', '')) as occurences FROM {table} as t
-                    where instr(Content, '{query}') > 0
-                    order by occurences desc
+                .FromSqlInterpolated(@$"
+                    SELECT ""Bookmarks"".* from search_bookmarks({query})
+                    INNER JOIN ""Bookmarks""
+                    ON ""Bookmarks"".""Id"" = id
                 ")
                 .Where(b => b.UserId == currentUser.Id)
                 .ToListAsync();

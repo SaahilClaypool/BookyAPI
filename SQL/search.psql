@@ -1,0 +1,19 @@
+DROP TYPE search_return_type CASCADE;
+CREATE TYPE search_return_type as (
+    id int,
+    occurrences int
+);
+DROP FUNCTION search_bookmarks;
+CREATE OR REPLACE FUNCTION search_bookmarks(varchar) 
+RETURNS setof search_return_type
+AS
+$$
+SELECT "Id",
+    (
+        (length("Content") - length(replace("Content", $1, ''))::int) / length($1)
+    ) as occurrences
+FROM  "Bookmarks" as t
+WHERE POSITION($1 in "Content") > 0
+ORDER BY occurrences DESC
+$$
+LANGUAGE SQL;
