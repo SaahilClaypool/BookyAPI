@@ -25,6 +25,8 @@ namespace BookyApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var jwtSecret = configuration.GetValue<string>("JWT_SECRET");
+            JwtMiddleware.Secret = jwtSecret ?? JwtMiddleware.Secret;
         }
 
         public IConfiguration Configuration { get; }

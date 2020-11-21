@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BookyApi.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,7 +16,7 @@ namespace BookyApi.Auth
     {
         private readonly RequestDelegate Next;
         private readonly ILogger<JwtMiddleware> Logger;
-        private const string Secret = "The quick brown foxes jumped over the lazy brown dogs";
+        public static string Secret { get; set; } = "Override this with an environment variable";
 
         public JwtMiddleware(RequestDelegate next, ILogger<JwtMiddleware> logger)
         {
