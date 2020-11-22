@@ -1,0 +1,2 @@
+unset DANGER
+unset ConnectionStrings__BookyDatabase
