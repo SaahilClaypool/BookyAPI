@@ -9,8 +9,6 @@ See [Deployment](./Deployment/README.md)
 
 ## Connecting to AWS
 
-- Need to add https://console.aws.amazon.com/vpc and create a security group that allows postgres connections
-
-    Can whitelist just "MyIp"
-
-https://docs.microsoft.com/en-us/azure/app-service/tutorial-dotnetcore-sqldb-app?pivots=platform-linux
+> NOTE: opting to *not* go with AWS. The steps would be something as below.
+> I believe the analogue for AWS is [elastic beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-core-tutorial.html).
+> Or just creating a docker image and deploying via a container.
