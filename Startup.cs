@@ -99,6 +99,7 @@ namespace BookyApi
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.Map("/", context => context.Response.WriteAsync("Hello Booky"));
                 endpoints.MapControllers();
             });
         }
