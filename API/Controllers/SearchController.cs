@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using BookyApi.Auth;
-using BookyApi.Db;
-using BookyApi.Models;
-using BookyApi.Services.Extensions;
+using BookyApi.API.Auth;
+using BookyApi.API.Db;
+using BookyApi.API.Models;
+using BookyApi.API.Services.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace BookyApi.Controllers
+namespace BookyApi.API.Controllers
 {
     [Authorize]
     [ApiController]

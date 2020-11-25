@@ -3,8 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using BookyApi.Auth;
-using BookyApi.Models;
+using BookyApi.API.Auth;
+using BookyApi.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 // https://devblogs.microsoft.com/aspnet/asp-net-core-authentication-with-identityserver4/
 // has example of the message type needed to get token from identityserver4
-namespace BookyApi.Controllers
+namespace BookyApi.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

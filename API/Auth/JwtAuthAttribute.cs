@@ -1,12 +1,12 @@
 using System;
 
-using BookyApi.Models;
+using BookyApi.API.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace BookyApi.Auth
+namespace BookyApi.API.Auth
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter

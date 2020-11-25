@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace BookyApi.Controllers
+namespace BookyApi.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

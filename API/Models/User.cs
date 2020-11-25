@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace BookyApi.Models
+namespace BookyApi.API.Models
 {
     public class User : IdentityUser
     {

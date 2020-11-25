@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace BookyApi.Migrations
+namespace BookyApi.API.Migrations
 {
     public partial class initps : Migration
     {

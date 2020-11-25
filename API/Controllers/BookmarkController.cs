@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BookyApi.Auth;
-using BookyApi.Db;
-using BookyApi.Models;
+using BookyApi.API.Auth;
+using BookyApi.API.Db;
+using BookyApi.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using FluentValidation;
-using BookyApi.Services.Extensions;
+using BookyApi.API.Services.Extensions;
 
-namespace BookyApi.Controllers
+namespace BookyApi.API.Controllers
 {
     [Authorize]
     [ApiController]

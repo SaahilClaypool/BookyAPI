@@ -1,6 +1,6 @@
 using System;
 
-namespace BookyApi
+namespace BookyApi.API
 {
     public class WeatherForecast
     {

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BookyApi.Auth;
-using BookyApi.Db;
-using BookyApi.Models;
+using BookyApi.API.Auth;
+using BookyApi.API.Db;
+using BookyApi.API.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace BookyApi
+namespace BookyApi.API
 {
     public class Startup
     {

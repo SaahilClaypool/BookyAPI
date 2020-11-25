@@ -4,13 +4,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using BookyApi.Models;
+using BookyApi.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BookyApi.Auth
+namespace BookyApi.API.Auth
 {
     public class JwtMiddleware
     {

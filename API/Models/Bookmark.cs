@@ -2,7 +2,7 @@ using System;
 using System.Text.Json.Serialization;
 using FluentValidation;
 
-namespace BookyApi.Models
+namespace BookyApi.API.Models
 {
     public abstract class Entity
     {

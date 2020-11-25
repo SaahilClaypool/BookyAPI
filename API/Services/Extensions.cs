@@ -1,9 +1,9 @@
 using System.Linq;
-using BookyApi.Db;
-using BookyApi.Models;
+using BookyApi.API.Db;
+using BookyApi.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookyApi.Services.Extensions
+namespace BookyApi.API.Services.Extensions
 {
     public static class EfExtensions
     {
