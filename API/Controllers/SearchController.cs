@@ -7,6 +7,7 @@ using BookyApi.API.Auth;
 using BookyApi.API.Db;
 using BookyApi.API.Models;
 using BookyApi.API.Services.Extensions;
+using BookyApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,7 @@ namespace BookyApi.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SearchController : ControllerBase
     {
         public SearchController(ILogger<SearchController> logger, BookyContext context)
@@ -25,15 +26,16 @@ namespace BookyApi.API.Controllers
         }
 
         [HttpGet("{query}")]
-        public async Task<IEnumerable<Bookmark>> Search(
+        public async Task<SearchResultDTO> Search(
             [FromRoute] string query,
             [FromServices] User currentUser
         )
         {
+            query = System.Web.HttpUtility.UrlDecode(query);
             var table = Context.TableName<Bookmark>();
             Logger.LogCritical(table);
             // TODO find way to put into postgres function
-            return await Context.Bookmarks
+            var searchResult = await Context.Bookmarks
                 .FromSqlInterpolated(@$"
                     SELECT ""Bookmarks"".* from search_bookmarks({query})
                     INNER JOIN ""Bookmarks""
@@ -41,6 +43,11 @@ namespace BookyApi.API.Controllers
                 ")
                 .Where(b => b.UserId == currentUser.Id)
                 .ToListAsync();
+
+            return new()
+            {
+                Result = searchResult.Select(b => new BookmarkDTO() { Content = b.Content, Url = b.Url })
+            };
         }
 
         public ILogger Logger { get; }

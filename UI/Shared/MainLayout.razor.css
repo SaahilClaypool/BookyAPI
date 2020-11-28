@@ -2,9 +2,15 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
-.main {
+.content {
+}
+
+.container {
+    display: grid;
+    place-items: center;
     flex: 1;
 }
 

@@ -1,7 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BookyApi.Shared.DTO
 {
+    public class SearchResultDTO
+    {
+        public IEnumerable<BookmarkDTO> Result { get; set; } = null!;
+    }
+
+    public class BookmarkDTO
+    {
+        public string Url { get; set; } = null!;
+        public string? Content { get; set; }
+
+    }
+
     public class LoginDTO
     {
         public string Username { get; set; } = "unset";

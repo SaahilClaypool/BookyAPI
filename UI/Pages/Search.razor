@@ -1,0 +1,8 @@
+@page "/"
+
+<div className="search">
+    <form autocomplete="off">
+        <input disabled=@Disabled type="text" name="search" placeholder="Search..." @bind-value="Model.Query"
+            @bind-value:event="oninput" />
+    </form>
+</div>
