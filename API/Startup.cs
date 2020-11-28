@@ -33,8 +33,8 @@ namespace BookyApi.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddRazorPages();
             services.AddDbContext<BookyContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("BookyDatabase"));
@@ -87,6 +87,8 @@ namespace BookyApi.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookyApi v1"));
 
@@ -96,8 +98,8 @@ namespace BookyApi.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.Map("/", context => context.Response.WriteAsync("Hello Booky"));
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
