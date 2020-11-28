@@ -33,6 +33,8 @@ namespace BookyApi.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: figure out better url detection
+            UI.Program.ConfigureUIServices(services, "https://localhost:5001", true);
             services.AddControllers();
             services.AddRazorPages();
             services.AddDbContext<BookyContext>(options =>
@@ -86,6 +88,7 @@ namespace BookyApi.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
@@ -99,7 +102,7 @@ namespace BookyApi.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }
