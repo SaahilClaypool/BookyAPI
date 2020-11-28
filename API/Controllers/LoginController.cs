@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using BookyApi.Shared.DTO;
 
 // https://devblogs.microsoft.com/aspnet/asp-net-core-authentication-with-identityserver4/
 // has example of the message type needed to get token from identityserver4
@@ -76,11 +77,4 @@ namespace BookyApi.API.Controllers
         }
 
     }
-
-    public class LoginDTO
-    {
-        public string Username { get; set; } = "";
-        public string Password { get; set; } = "";
-    }
-    public record LoginResultDTO(bool Success, string Token);
 }

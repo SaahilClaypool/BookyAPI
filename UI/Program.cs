@@ -1,12 +1,11 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Components.Authorization;
+using Blazored.LocalStorage;
+using UI.Helpers;
 
 namespace UI
 {
@@ -44,11 +43,15 @@ namespace UI
             });
 
             services.AddScoped(sp => new HostEnvironmentService { IsServer = server });
+            services.AddBlazoredLocalStorage();
+            services.AddAuthorizationCore();
+            services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
-        class HostEnvironmentService
-        {
-            public bool IsServer { get; set; } = false;
-        }
+    }
+    public class HostEnvironmentService
+    {
+        public bool IsServer { get; set; } = false;
     }
 }
