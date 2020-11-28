@@ -11,40 +11,55 @@ using Blazored.LocalStorage;
 
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace UI.Helpers {
-    public class ApiAuthenticationStateProvider : AuthenticationStateProvider {
+namespace UI.Helpers
+{
+    public class ApiAuthenticationStateProvider : AuthenticationStateProvider
+    {
         private readonly HttpClient HttpClient;
         private readonly ILocalStorageService LocalStorage;
 
-        public ApiAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorage) {
+        public ApiAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorage)
+        {
             HttpClient = httpClient;
             LocalStorage = localStorage;
         }
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+        {
             var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
 
-            if (string.IsNullOrWhiteSpace(savedToken)) {
+            if (string.IsNullOrWhiteSpace(savedToken))
+            {
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
 
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
 
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
+            try
+            {
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
+            }
+            catch
+            {
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            }
         }
 
-        public void MarkUserAsAuthenticated(string email) {
+        public void MarkUserAsAuthenticated(string email)
+        {
             var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, email) }, "apiauth"));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
             NotifyAuthenticationStateChanged(authState);
         }
 
-        public void MarkUserAsLoggedOut() {
+        public void MarkUserAsLoggedOut()
+        {
             var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
             var authState = Task.FromResult(new AuthenticationState(anonymousUser));
             NotifyAuthenticationStateChanged(authState);
         }
 
-        private static IEnumerable<Claim> ParseClaimsFromJwt(string jwt) {
+        private static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
+        {
             var claims = new List<Claim>();
             var payload = jwt.Split('.')[1];
             var jsonBytes = ParseBase64WithoutPadding(payload);
@@ -52,15 +67,19 @@ namespace UI.Helpers {
 
             keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
 
-            if (roles != null) {
-                if (roles.ToString().Trim().StartsWith("[")) {
+            if (roles != null)
+            {
+                if (roles.ToString().Trim().StartsWith("["))
+                {
                     var parsedRoles = JsonSerializer.Deserialize<string[]>(roles.ToString());
 
-                    foreach (var parsedRole in parsedRoles) {
+                    foreach (var parsedRole in parsedRoles)
+                    {
                         claims.Add(new Claim(ClaimTypes.Role, parsedRole));
                     }
                 }
-                else {
+                else
+                {
                     claims.Add(new Claim(ClaimTypes.Role, roles.ToString()));
                 }
 
@@ -72,8 +91,10 @@ namespace UI.Helpers {
             return claims;
         }
 
-        private static byte[] ParseBase64WithoutPadding(string base64) {
-            switch (base64.Length % 4) {
+        private static byte[] ParseBase64WithoutPadding(string base64)
+        {
+            switch (base64.Length % 4)
+            {
                 case 2: base64 += "=="; break;
                 case 3: base64 += "="; break;
             }

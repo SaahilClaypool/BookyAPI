@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using BookyApi.Shared.DTO;
+using System.Text.Json;
+using System.IO;
 
 // https://devblogs.microsoft.com/aspnet/asp-net-core-authentication-with-identityserver4/
 // has example of the message type needed to get token from identityserver4
@@ -43,6 +45,8 @@ namespace BookyApi.API.Controllers
             [FromBody] LoginDTO details
         )
         {
+            Logger.LogCritical($"Register: {JsonSerializer.Serialize(details)}");
+            Logger.LogCritical($"Register: {JsonSerializer.Serialize(details)}");
             var user = new User()
             {
                 UserName = details.Username,
@@ -57,16 +61,17 @@ namespace BookyApi.API.Controllers
             [FromBody] LoginDTO details
         )
         {
+            Logger.LogCritical($"user: {JsonSerializer.Serialize(details)}");
             var result = await SignInManager.PasswordSignInAsync(details.Username, details.Password, true, false);
             if (!result.Succeeded)
             {
-                return new LoginResultDTO(false, result.ToString());
+                return new LoginResultDTO { Success = false, Token = result.ToString() };
             }
             var user = await CurrentUserAccessor.FindByUsername(details.Username);
             var token = JwtMiddleware.GenerateJwtToken(user, Logger);
             Logger.LogDebug($"Logged in {details.Username} with token {token}");
 
-            return new LoginResultDTO(true, token);
+            return new LoginResultDTO { Success = true, Token = token };
         }
 
         [HttpPost("Logout")]

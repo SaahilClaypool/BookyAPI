@@ -1,0 +1,48 @@
+@page "/login"
+@using BookyApi.Shared.DTO
+@using UI.Helpers
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <button @onclick="GoToLogout">
+            Logout
+        </button>
+    </Authorized>
+    <NotAuthorized>
+        You need to type your username and password to log in
+    </NotAuthorized>
+</AuthorizeView>
+
+<h1>Login</h1>
+
+@if (ShowErrors)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Please enter your details</h5>
+        <EditForm Model="LoginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <InputText Id="email" Class="form-control" @bind-Value="LoginModel.Username" />
+                <ValidationMessage For="@(() => LoginModel.Username)" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText Id="password" type="password" Class="form-control" @bind-Value="LoginModel.Password" />
+                <ValidationMessage For="@(() => LoginModel.Password)" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </EditForm>
+    </div>
+</div>
