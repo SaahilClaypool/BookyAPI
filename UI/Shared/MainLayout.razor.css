@@ -1,17 +1,19 @@
 .page {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
 }
 
 .content {
+    padding: 10px;
 }
 
 .container {
-    display: grid;
-    place-items: center;
-    flex: 1;
+    /* display: grid;
+    place-items: center; */
+    text-align: center;
+    background-color: aliceblue;
 }
 
 .top-row {
