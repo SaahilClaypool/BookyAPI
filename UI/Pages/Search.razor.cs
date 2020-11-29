@@ -49,6 +49,7 @@ namespace UI.Pages
             {
                 case "ArrowDown":
                     Model.Cursor += 1;
+
                     break;
                 case "ArrowUp":
                     Model.Cursor -= 1;

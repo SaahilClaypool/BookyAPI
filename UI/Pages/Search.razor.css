@@ -1,3 +1,16 @@
+.search {
+    min-height: 20em;
+    width: 100ch;
+    background-color: lightcoral;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+
+.results {
+    flex: 1;
+    width: 100ch;
+}
 .selected {
     background-color: aliceblue;
 }

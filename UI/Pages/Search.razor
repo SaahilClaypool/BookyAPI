@@ -1,9 +1,13 @@
 @page "/"
 
-<div className="search">
-    <form autocomplete="off" @onsubmit="() => this.Submit()" @onsubmit:stopPropagation>
-        <input disabled=@Disabled type="text" name="search" placeholder="Search..." @bind-value="Model.Query"
-            @bind-value:event="oninput" @onkeydown="this.HandleKeyPresss" />
+<div class="search">
+    <div class="form">
+        <form id="searchBox" autocomplete="off" @onsubmit="() => this.Submit()" @onsubmit:stopPropagation>
+            <input disabled=@Disabled type="text" name="search" placeholder="Search..." @bind-value="Model.Query"
+                @bind-value:event="oninput" @onkeydown="this.HandleKeyPresss"/>
+        </form>
+    </div>
+    <div class="results">
         <ul>
             @foreach (var result in Model.Items)
             {
@@ -20,5 +24,5 @@
                 </li>
             }
         </ul>
-    </form>
+    </div>
 </div>
