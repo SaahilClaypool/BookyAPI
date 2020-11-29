@@ -5,7 +5,7 @@ namespace BookyApi.Shared.DTO
 {
     public class SearchResultDTO
     {
-        public IEnumerable<BookmarkDTO> Result { get; set; } = null!;
+        public List<BookmarkDTO> Result { get; set; } = new();
     }
 
     public class BookmarkDTO

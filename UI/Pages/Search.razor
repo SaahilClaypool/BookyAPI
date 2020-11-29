@@ -1,8 +1,24 @@
 @page "/"
 
 <div className="search">
-    <form autocomplete="off">
+    <form autocomplete="off" @onsubmit="() => this.Submit()" @onsubmit:stopPropagation>
         <input disabled=@Disabled type="text" name="search" placeholder="Search..." @bind-value="Model.Query"
-            @bind-value:event="oninput" />
+            @bind-value:event="oninput" @onkeydown="this.HandleKeyPresss" />
+        <ul>
+            @foreach (var result in Model.Items)
+            {
+                <li class=@result.ClassName>
+                    @* TODO: turn into component *@
+                    <a href=@result.Url>
+                        <div>
+                            <strong>@result.Url</strong>
+                        </div>
+                        <p>
+                            @result.Content
+                        </p>
+                    </a>
+                </li>
+            }
+        </ul>
     </form>
 </div>
