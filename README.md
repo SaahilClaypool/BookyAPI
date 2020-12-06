@@ -7,6 +7,8 @@ Goal: simple rest API to create bookmarks with url, content, and tags (maybe per
 
 See [Deployment](./Deployment/README.md)
 
+Deployed at [azuresites](https://bookyapi.azurewebsites.net/)
+
 ## Connecting to AWS
 
 > NOTE: opting to *not* go with AWS. The steps would be something as below.

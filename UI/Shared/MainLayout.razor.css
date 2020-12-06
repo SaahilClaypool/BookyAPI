@@ -3,6 +3,21 @@
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100vh;
+    --brown: #CB997E;
+    --tan: #EDDCD2;
+    --lighttan: #FFF1E6;
+    --lightgray: #F0EFEB;
+    --gbrown: #DDBEA9;
+    --olive: #A5A58D;
+    --lightolive: #A5A58D55;
+    --greyolive: #B7B7A4;
+    --gray: #CAD2C5;
+    --main: #84A98C;
+    --dark: #52796f;
+    --darker: #354F52;
+    --darkest: #2F3E46;
+    --darklink: #006d77;
+    --lightlink: #E0FBFC;
 }
 
 .content {
@@ -10,19 +25,31 @@
 }
 
 .container {
-    /* display: grid;
-    place-items: center; */
     text-align: center;
-    background-color: aliceblue;
+    background-color: var(--lighttan);
 }
 
 .top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
+    background-color: var(--main);
+    color: whitesmoke;
+    border-bottom: 1px solid var(--darkest);
     justify-content: flex-start;
     height: 3.5rem;
     display: flex;
     align-items: center;
+    padding: 10px;
+}
+
+::deep #titlelink {
+    color: whitesmoke;
+}
+
+::deep .top-row a {
+    color: var(--lightlink);
+}
+
+::deep a {
+    color: var(--darklink);
 }
 
 .top-row ::deep a, .top-row .btn-link {
