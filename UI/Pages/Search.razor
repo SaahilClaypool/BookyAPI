@@ -12,7 +12,15 @@
                     <a href=@result.Url>
                         <strong>@result.Url</strong>
                         <p>
-                            @result.Content
+                            @foreach (var part in result.ContentSplitByQuery(Model.Query))
+                            {
+                                if (@part is not null)
+                                {
+                                    @part
+                                } else {
+                                    <span class="match">@Model.Query</span>
+                                }
+                            }
                         </p>
                     </a>
                 </div>

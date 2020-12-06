@@ -30,6 +30,10 @@ a p {
     text-decoration: none;
 }
 
+.match  {
+    background-color: yellow;
+}
+
 .results div {
     padding: 10px;
     cursor: pointer;

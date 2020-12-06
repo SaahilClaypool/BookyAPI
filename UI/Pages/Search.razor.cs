@@ -124,5 +124,19 @@ namespace UI.Pages
         public string? Content { get; set; } = null;
         public bool IsSelected { get; set; }
         public string ClassName => IsSelected ? "selected" : "";
+
+        /// HACK
+        public IEnumerable<string?> ContentSplitByQuery(string query)
+        {
+            var parts = Content!.Split(query);
+            for (var i = 0; i < parts.Length; i++)
+            {
+                yield return parts[i];
+                if (i < parts.Length - 1)
+                {
+                    yield return null;
+                }
+            }
+        }
     }
 }

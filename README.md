@@ -2,6 +2,11 @@
 
 Goal: simple rest API to create bookmarks with url, content, and tags (maybe personal notes).
 
+## Resources
+
+- partial inspiration: [Memex](https://github.com/WorldBrain/Memex)
+
+    - 
 
 ## Connect to azure
 
