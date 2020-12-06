@@ -1,0 +1,17 @@
+@using UI.Pages
+
+<div class="edit">
+    <h2>Edit Bookmark</h2>
+    <strong>Summary</strong>
+    <p>
+        @Bookmark.Content
+    </p>
+    <hr/>
+    <strong>Personal notes</strong>
+    <textarea placeholder="TODO: add notes to the backend"/>
+</div>
+
+@code {
+    [Parameter]
+    public SearchItem Bookmark { get; set; }
+}

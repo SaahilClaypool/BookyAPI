@@ -1,0 +1,7 @@
+.edit {
+    display: grid;
+    place-items: center;
+}
+textarea {
+    width: 90%;
+}

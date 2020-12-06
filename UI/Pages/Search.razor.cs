@@ -86,7 +86,8 @@ namespace UI.Pages
             {
                 Content = result.Content,
                 Url = result.Url,
-                IsSelected = i == Cursor
+                IsSelected = i == Cursor,
+                Id = result.Id
             }
         ).ToList();
         public SearchItem? Selected => Cursor > 0 ? Items[Cursor] : null;
@@ -122,6 +123,7 @@ namespace UI.Pages
     {
         public string Url { get; set; } = null!;
         public string? Content { get; set; } = null;
+        public int? Id { get; set; } = null;
         public bool IsSelected { get; set; }
         public string ClassName => IsSelected ? "selected" : "";
 

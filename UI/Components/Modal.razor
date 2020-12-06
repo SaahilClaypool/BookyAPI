@@ -1,0 +1,14 @@
+<div class="modal" @onclick="() => CloseModal()">
+    <div class="modal-content" @onclick:stopPropagation='true'>
+        <span class="close" @onclick="() => CloseModal()">&times;</span>
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public Action CloseModal { get; set; }
+}

@@ -8,21 +8,7 @@
             @foreach (var result in Model.Items)
             {
                 <div class=@result.ClassName>
-                    @* TODO: turn into component *@
-                    <a href=@result.Url>
-                        <strong>@result.Url</strong>
-                        <p>
-                            @foreach (var part in result.ContentSplitByQuery(Model.Query))
-                            {
-                                if (@part is not null)
-                                {
-                                    @part
-                                } else {
-                                    <span class="match">@Model.Query</span>
-                                }
-                            }
-                        </p>
-                    </a>
+                    <SearchResult Query=@Model.Query Result=@result />
                 </div>
             }
         </div>

@@ -1,0 +1,27 @@
+@* TODO: turn into component *@
+<div @ondblclick="OpenModal" @ondblclick:stopPropagation>
+    <a href=@Result.Url>
+        <strong>@Result.Url</strong>
+    </a>
+    <hr />
+    <p>
+        @foreach (var part in Result.ContentSplitByQuery(Query))
+        {
+            if (@part is not null)
+            {
+                @part
+            } else {
+                <span class="match">@Query</span>
+            }
+        }
+    </p>
+
+    @if (ShowModal == true)
+    {
+        <Modal CloseModal="() => CloseModal()">
+            <EditBookmark Bookmark=@Result/>
+        </Modal>
+    } else {
+        <small>Double click to open</small>
+    }
+</div>

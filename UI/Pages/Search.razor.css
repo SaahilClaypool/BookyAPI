@@ -12,26 +12,12 @@
     border: 1px solid var(--darker);
     border-bottom: none;
     border-top: none;
-    z-index: 99;
+    z-index: 1;
     top: 100%;
     left: 0;
     right: 0;
-}
-
-a {
-    text-decoration: none;
-}
-
-a strong {
-    text-decoration: underline;
-}
-
-a p {
-    text-decoration: none;
-}
-
-.match  {
-    background-color: yellow;
+    max-height: 70vh;
+    overflow-y: scroll;
 }
 
 .results div {

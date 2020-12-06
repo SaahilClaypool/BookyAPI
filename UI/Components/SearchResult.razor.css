@@ -1,0 +1,15 @@
+a {
+    text-decoration: none;
+}
+
+a strong {
+    text-decoration: underline;
+}
+
+a p {
+    text-decoration: none;
+}
+
+::deep .match  {
+    background-color: yellow;
+}
