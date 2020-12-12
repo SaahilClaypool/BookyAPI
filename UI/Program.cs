@@ -25,25 +25,9 @@ namespace UI
 
         public static void ConfigureUIServices(IServiceCollection services, string baseUri, bool server = false)
         {
-            // TODO: make this better
             services.AddScoped(sp =>
-            {
-                if (server)
-                {
-                    var httpClientHandler = new HttpClientHandler
-                    {
-                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-                    };
-                    return new HttpClient(handler: httpClientHandler)
-                    {
-                        BaseAddress = new Uri("https://localhost:5001"),
-                    };
-                }
-                else
-                {
-                    return new HttpClient { BaseAddress = new(baseUri) };
-                }
-            });
+                new HttpClient { BaseAddress = new(baseUri) }
+            );
 
             services.AddScoped(sp => new HostEnvironmentService { IsServer = server });
             services.AddBlazoredLocalStorage();

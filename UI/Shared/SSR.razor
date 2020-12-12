@@ -1,12 +1,13 @@
 @using UI.Pages
-@if(IsServer)
+@if (IsServer)
 {
     <MainLayout>
+
         <Body>
-                <Search Disabled=true />
+            <Search Disabled=true />
         </Body>
     </MainLayout>
-} 
+}
 else
 {
     @ChildContent

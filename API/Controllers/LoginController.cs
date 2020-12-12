@@ -58,6 +58,22 @@ namespace BookyApi.API.Controllers
             return result.Succeeded;
         }
 
+        [HttpGet("Refresh")]
+        public async Task<LoginResultDTO> Refresh(
+            [FromServices] User user
+        )
+        {
+            if (user is null)
+            {
+                return new LoginResultDTO { Success = false };
+            }
+            await SignInManager.RefreshSignInAsync(user);
+            var token = JwtMiddleware.GenerateJwtToken(user, Logger);
+            Logger.LogDebug($"refreshed token for {user.UserName}");
+
+            return new LoginResultDTO { Success = true, Token = token, UserName = user.UserName };
+        }
+
         [HttpPost]
         public async Task<LoginResultDTO> LogIn(
             [FromBody] LoginDTO details
@@ -73,7 +89,7 @@ namespace BookyApi.API.Controllers
             var token = JwtMiddleware.GenerateJwtToken(user, Logger);
             Logger.LogDebug($"Logged in {details.Username} with token {token}");
 
-            return new LoginResultDTO { Success = true, Token = token };
+            return new LoginResultDTO { Success = true, Token = token, UserName = user.UserName };
         }
 
         [HttpPost("Logout")]

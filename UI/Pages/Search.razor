@@ -1,4 +1,10 @@
 @page "/"
+@attribute [Authorize]
+
+@if(!Disabled)
+{
+    <CheckLoginState />
+}
 
 <div class="search">
     <form id="searchForm" autocomplete="off" @onsubmit="() => this.Submit()" @onsubmit:stopPropagation>

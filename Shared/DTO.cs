@@ -26,6 +26,7 @@ namespace BookyApi.Shared.DTO
     {
         public bool Success { get; set; } = false;
         public string Token { get; set; } = "unset";
+        public string UserName { get; set; } = "unset";
     }
 
 }

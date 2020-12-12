@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace UI.Helpers
     public interface IAuthService
     {
         Task<LoginResultDTO> Login(LoginDTO loginModel);
+        Task<bool> Refresh();
         Task Logout();
     }
     public class AuthService : IAuthService
@@ -33,6 +35,13 @@ namespace UI.Helpers
             _localStorage = localStorage;
         }
 
+        public async Task SaveToken(string username, string token)
+        {
+            await _localStorage.SetItemAsync("authToken", token);
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(username);
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+        }
+
         public async Task<LoginResultDTO> Login(LoginDTO loginModel)
         {
             var loginAsJson = JsonSerializer.Serialize(loginModel);
@@ -48,9 +57,7 @@ namespace UI.Helpers
                 return loginResult;
             }
 
-            await _localStorage.SetItemAsync("authToken", loginResult.Token);
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Username);
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
+            await SaveToken(loginModel.Username, loginResult.Token);
 
             return loginResult;
         }
@@ -60,6 +67,29 @@ namespace UI.Helpers
             await _localStorage.RemoveItemAsync("authToken");
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
             HttpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
+        public async Task<bool> Refresh()
+        {
+            System.Console.WriteLine("Checking sign in state");
+            try
+            {
+                var response = await HttpClient.GetFromJsonAsync<LoginResultDTO>("api/LogIn/Refresh");
+                if (response?.Success is false)
+                {
+                    return false;
+                }
+
+                await SaveToken(response!.UserName, response.Token);
+
+                return true;
+            }
+            catch(System.Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+                System.Console.WriteLine(e.StackTrace);
+                return false;
+            }
         }
     }
 
