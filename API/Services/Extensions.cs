@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Text.Json;
+
 using BookyApi.API.Db;
 using BookyApi.API.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BookyApi.API.Services.Extensions
@@ -11,9 +13,9 @@ namespace BookyApi.API.Services.Extensions
     {
         public static void Dbg(this object o) =>
             Console.WriteLine(JsonSerializer.Serialize(o, new()
-            {
-                WriteIndented = true
-            }));
+        {
+            WriteIndented = true
+        }));
     }
     public static class EfExtensions
     {

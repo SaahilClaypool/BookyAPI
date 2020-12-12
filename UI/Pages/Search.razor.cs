@@ -1,18 +1,18 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
-
-using UI.Helpers;
+using System.Web;
 
 using BookyApi.Shared.DTO;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Web;
 using Microsoft.AspNetCore.Components.Web;
-using System.Linq;
-using System.Collections.Generic;
+
+using UI.Helpers;
 
 namespace UI.Pages
 {

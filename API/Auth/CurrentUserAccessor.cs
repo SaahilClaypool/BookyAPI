@@ -1,8 +1,10 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 using BookyApi.API.Db;
 using BookyApi.API.Models;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 

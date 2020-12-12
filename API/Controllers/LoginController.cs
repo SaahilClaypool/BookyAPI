@@ -1,17 +1,19 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+
 using BookyApi.API.Auth;
 using BookyApi.API.Models;
+using BookyApi.Shared.DTO;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using BookyApi.Shared.DTO;
-using System.Text.Json;
-using System.IO;
 
 // https://devblogs.microsoft.com/aspnet/asp-net-core-authentication-with-identityserver4/
 // has example of the message type needed to get token from identityserver4

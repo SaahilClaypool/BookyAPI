@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
 
-using UI.Helpers;
-
 using BookyApi.Shared.DTO;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+
+using UI.Helpers;
 
 namespace UI.Pages
 {

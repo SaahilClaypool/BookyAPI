@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+
 using BookyApi.API.Models;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
