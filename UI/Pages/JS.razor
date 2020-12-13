@@ -1,0 +1,33 @@
+@inject IJSRuntime JSRuntime
+@inject ILogger<JS> Logger
+@implements IAsyncDisposable
+@page "/JS"
+@attribute [Authorize]
+
+Test JS here
+
+<button @onclick='() => Prompt("Hello World")'>Prompt User</button>
+
+
+@code {
+    IJSObjectReference sample;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            sample = await JSRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./JS/sample_module.js");
+        }
+    }
+
+    async Task Prompt(string prompt) {
+        var result = await sample.InvokeAsync<string>("promptUser", prompt).AsTask();
+        Logger.LogInformation(result);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        await sample.DisposeAsync();
+    }
+}
