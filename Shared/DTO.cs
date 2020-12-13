@@ -5,15 +5,23 @@ namespace BookyApi.Shared.DTO
 {
     public class SearchResultDTO
     {
-        public List<BookmarkDTO> Result { get; set; } = new();
+        public List<BookmarkSummaryDTO> Result { get; set; } = new();
     }
 
-    public class BookmarkDTO
+    public class BookmarkSummaryDTO
     {
         public string Url { get; set; } = null!;
         public string? Content { get; set; }
         public int? Id { get; set; }
 
+    }
+
+    public class BookmarkDetailsDTO
+    {
+        public string Url { get; set; } = null!;
+        public string Content { get; set; } = null!;
+        public string Notes { get; set; } = null!;
+        public int? Id { get; set; }
     }
 
     public class LoginDTO

@@ -7,6 +7,7 @@ using BookyApi.API.Auth;
 using BookyApi.API.Db;
 using BookyApi.API.Models;
 using BookyApi.API.Services.Extensions;
+using BookyApi.Shared.DTO;
 
 using FluentValidation;
 
@@ -18,7 +19,7 @@ namespace BookyApi.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class BookmarkController : ControllerBase
     {
         public BookmarkController(ILogger<BookmarkController> logger, BookyContext context)
@@ -36,16 +37,41 @@ namespace BookyApi.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Bookmark> Get(
+        public async Task<BookmarkDetailsDTO> Get(
             [FromRoute] int id,
             [FromServices] User currentUser
         )
         {
-            return await currentUser.BookmarkQuery(Context)
+            var bookmark = await currentUser.BookmarkQuery(Context)
                 .Where(b => b.Id == id)
                 .FirstAsync();
+            return bookmark switch {
+                Bookmark mark => new BookmarkDetailsDTO { Id = mark.Id, Notes = mark.Notes, Url = mark.Url, Content = mark.Content },
+                _ => new BookmarkDetailsDTO()
+            };
         }
 
+        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
+        public async Task<bool> Update(
+            [FromRoute] int id,
+            [FromBody] BookmarkDetailsDTO bookmarkDetails,
+            [FromServices] User currentUser
+        )
+        {
+
+            Logger.LogInformation(bookmarkDetails.AsJson());
+            var dbBookmark = await currentUser.BookmarkQuery(Context)
+                .Where(b => b.Id == id)
+                .FirstAsync();
+
+            if(dbBookmark is null) return false;
+            dbBookmark.Notes = bookmarkDetails.Notes;
+            new BookmarkValidator().ValidateAndThrow(dbBookmark);
+            await Context.SaveChangesAsync();
+            // TODO: pull in notes
+            return true;
+        }
 
         [HttpPost]
         public async Task<int> Create(

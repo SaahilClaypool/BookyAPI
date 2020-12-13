@@ -13,9 +13,15 @@ namespace BookyApi.API.Services.Extensions
     {
         public static void Dbg(this object o) =>
             Console.WriteLine(JsonSerializer.Serialize(o, new()
-        {
-            WriteIndented = true
-        }));
+            {
+                WriteIndented = true
+            }));
+
+        public static string AsJson(this object o, bool indented = false) =>
+            JsonSerializer.Serialize(o, new()
+            {
+                WriteIndented = indented
+            });
     }
     public static class EfExtensions
     {

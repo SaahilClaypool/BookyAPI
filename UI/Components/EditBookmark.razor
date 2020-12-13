@@ -1,4 +1,5 @@
 @using UI.Pages
+@implements IAsyncDisposable
 
 <div class="edit">
     <h2>Edit Bookmark</h2>
@@ -6,12 +7,43 @@
     <p>
         @Bookmark.Content
     </p>
-    <hr/>
+    <hr />
     <strong>Personal notes</strong>
-    <textarea placeholder="TODO: add notes to the backend"/>
+    <textarea @onblur="async () => await SaveChanges()"  placeholder="TODO: add notes to the backend" @bind="Details.Notes"/>
+    <small>@SaveText</small>
 </div>
 
 @code {
-    [Parameter]
-    public SearchItem Bookmark { get; set; }
+    [Parameter] public SearchItem Bookmark { get; set; }
+
+    [Inject] ILogger<EditBookmark> Logger { get; set; }
+    [Inject] HttpClient Http { get; set; }
+
+    bool Saved { get; set; } = true;
+
+    BookmarkDetailsDTO Details { get; set; } = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Details.Content = Bookmark.Content;
+        Details.Url = Bookmark.Url;
+        Details.Id = Bookmark.Id;
+        Details = await Http.GetFromJsonAsync<BookmarkDetailsDTO>($"api/Bookmark/{Details.Id}");
+        await base.OnParametersSetAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await SaveChanges();
+    }
+
+    async ValueTask SaveChanges()
+    {
+        Logger.LogInformation($"Saving bookmark... {Details.AsJson()}");
+        Saved = true;
+        var result = await Http.PutAsJsonAsync($"api/Bookmark/{Details.Id}", Details);
+        return;
+    }
+
+    string SaveText => Saved ? "Up to date." : "Changes will be saved automatically";
 }

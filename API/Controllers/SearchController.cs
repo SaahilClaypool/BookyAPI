@@ -48,7 +48,7 @@ namespace BookyApi.API.Controllers
 
             return new()
             {
-                Result = searchResult.Select(b => new BookmarkDTO() { Content = b.Content, Url = b.Url, Id = b.Id }).ToList()
+                Result = searchResult.Select(b => new BookmarkSummaryDTO() { Content = b.Content, Url = b.Url, Id = b.Id }).ToList()
             };
         }
 

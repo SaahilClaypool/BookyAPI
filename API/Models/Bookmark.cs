@@ -13,6 +13,7 @@ namespace BookyApi.API.Models
     {
         public string Url { get; set; } = null!;
         public string? Content { get; set; }
+        public string? Notes { get; set; }
         public string? UserId { get; set; } = null!;
         [JsonIgnore]
         public User? User { get; set; } = null!;
@@ -25,6 +26,7 @@ namespace BookyApi.API.Models
             RuleFor(b => b.Url).Must(url => Uri.TryCreate(url, UriKind.Absolute, out var uriResult))
                 .WithMessage("Must be a valid URL");
             RuleFor(b => b.Content).NotNull();
+            RuleFor(b => b.Notes).MaximumLength(280);
         }
     }
 }
