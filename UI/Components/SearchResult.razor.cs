@@ -22,7 +22,6 @@ namespace UI.Components
         void CloseModal()
         {
             ShowModal = false;
-            System.Console.WriteLine($"Modal closing... {ShouldRender()}");
             // force re-render. Required when child changes parent
             StateHasChanged();
         }

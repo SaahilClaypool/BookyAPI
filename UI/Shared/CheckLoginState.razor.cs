@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.Extensions.Logging;
 
 using UI;
 using UI.Helpers;
@@ -15,18 +16,17 @@ namespace UI.Shared
         [Inject] protected NavigationManager NavigationManager { get; set; } = null!;
         [Inject] protected IAuthService AuthService { get; set; } = null!;
         [Inject] AuthenticationStateProvider AuthenticationState { get; set; } = null!;
+        [Inject] ILogger<CheckLoginState> Logger { get; set; } = null!;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            System.Console.WriteLine("RENDER");
             var state = await AuthenticationState.GetAuthenticationStateAsync();
-            System.Console.WriteLine(state);
             var loggedIn = await AuthService.Refresh();
             if(!loggedIn) {
-                System.Console.WriteLine("Not logged in!");
+                Logger.LogWarning("User not logged in");
                 NavigationManager.NavigateTo("/login");
             }
-            System.Console.WriteLine("Refreshed token");
+            Logger.LogInformation("Refreshed token");
             await base.OnParametersSetAsync();
         }
     }

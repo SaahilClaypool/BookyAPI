@@ -10,6 +10,7 @@ using Blazored.LocalStorage;
 using BookyApi.Shared.DTO;
 
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Logging;
 
 // https://chrissainty.com/securing-your-blazor-apps-authentication-with-clientside-blazor-using-webapi-aspnet-core-identity/
 namespace UI.Helpers
@@ -26,13 +27,17 @@ namespace UI.Helpers
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILocalStorageService _localStorage;
 
+        public ILogger<AuthService> Logger { get; }
+
         public AuthService(HttpClient httpClient,
                            AuthenticationStateProvider authenticationStateProvider,
-                           ILocalStorageService localStorage)
+                           ILocalStorageService localStorage,
+                           ILogger<AuthService> logger)
         {
             HttpClient = httpClient;
             _authenticationStateProvider = authenticationStateProvider;
             _localStorage = localStorage;
+            Logger = logger;
         }
 
         public async Task SaveToken(string username, string token)
@@ -71,7 +76,6 @@ namespace UI.Helpers
 
         public async Task<bool> Refresh()
         {
-            System.Console.WriteLine("Checking sign in state");
             try
             {
                 var response = await HttpClient.GetFromJsonAsync<LoginResultDTO>("api/LogIn/Refresh");
@@ -86,8 +90,8 @@ namespace UI.Helpers
             }
             catch(System.Exception e)
             {
-                System.Console.WriteLine(e.Message);
-                System.Console.WriteLine(e.StackTrace);
+                Logger.LogWarning($"Failed to refresh token: {e.Message}");
+                Logger.LogDebug(e.StackTrace);
                 return false;
             }
         }

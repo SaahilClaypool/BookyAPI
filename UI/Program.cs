@@ -7,6 +7,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using UI.Helpers;
 
@@ -19,6 +20,7 @@ namespace UI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
             ConfigureUIServices(builder.Services, builder.HostEnvironment.BaseAddress);
+            builder.Services.AddLogging();
 
             await builder.Build().RunAsync();
         }
