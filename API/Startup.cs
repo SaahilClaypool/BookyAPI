@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using BookyApi.API.Auth;
 using BookyApi.API.Db;
+using BookyApi.API.Errors.ErrorHandling;
 using BookyApi.API.Models;
 using BookyApi.API.Services.UseCases;
 
@@ -38,7 +39,10 @@ namespace BookyApi.API
         {
             // TODO: figure out better url detection
             UI.Program.ConfigureUIServices(services, "https://localhost:5001", true);
-            services.AddControllers();
+            services.AddControllers(options => {
+                options.Filters.Add(new ValidationErrorHandler());
+                options.Filters.Add(new ApplicationErrorHandler());
+            });
             services.AddRazorPages();
             services.AddDbContext<BookyContext>(options =>
             {

@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using BookyApi.API.Errors;
 using BookyApi.API.Models;
 
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,7 @@ namespace BookyApi.API.Services.UseCases
                     Logger.LogInformation(content);
                     var titleStart = content.IndexOf("<title>") + "<title>".Length;
                     var titleEnd = content.IndexOf("</title>");
+                    if(titleStart < 0 || titleEnd < 0) throw new ApplicationError("Could not find title in content");
                     return new Bookmark
                     {
                         Url = clipboardContents,
