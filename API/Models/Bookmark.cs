@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 
 using FluentValidation;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookyApi.API.Models
 {
     public abstract class Entity
@@ -11,6 +13,7 @@ namespace BookyApi.API.Models
     }
     public class Bookmark : Entity
     {
+        public static readonly int MaxLength = 280;
         public string Url { get; set; } = null!;
         public string? Content { get; set; }
         public string? Notes { get; set; }
@@ -26,7 +29,7 @@ namespace BookyApi.API.Models
             RuleFor(b => b.Url).Must(url => Uri.TryCreate(url, UriKind.Absolute, out var uriResult))
                 .WithMessage("Must be a valid URL");
             RuleFor(b => b.Content).NotNull();
-            RuleFor(b => b.Notes).MaximumLength(280);
+            RuleFor(b => b.Notes).MaximumLength(Bookmark.MaxLength);
         }
     }
 }

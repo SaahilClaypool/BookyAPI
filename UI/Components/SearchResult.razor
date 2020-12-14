@@ -1,4 +1,4 @@
-<div @ondblclick="OpenModal" @ondblclick:stopPropagation>
+<div @ondblclick:stopPropagation>
     <a href=@Result.Url>
         <strong>@Result.Url</strong>
     </a>
@@ -20,7 +20,6 @@
         <Modal CloseModal="() => CloseModal()">
             <EditBookmark Bookmark=@Result />
         </Modal>
-    } else {
-        <small>Double click to open</small>
     }
+    <button @onclick='OpenModal'>Edit</button>
 </div>

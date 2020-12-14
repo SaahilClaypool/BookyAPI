@@ -1,0 +1,17 @@
+@page "/Create"
+
+
+<div class="create">
+    <h2>Create Bookmark</h2>
+    <button @onclick='CopyFomClipboard'>Copy from clipboard</button>
+    <small>Copy a snippet of text from a browser tab, then click the button</small>
+    <label for="url">URL</label>
+    <input id="url" type="text" @bind="Bookmark.Url" placeholder="Url"/>
+    <strong>Summary</strong>
+    <textarea placeholder="" @bind="Bookmark.Content" />
+    <hr />
+    <strong>notes</strong>
+    <textarea placeholder="" @bind="Bookmark.Notes" />
+    <small>@SaveText</small>
+    <button @onclick='SaveChanges'>Save</button>
+</div>

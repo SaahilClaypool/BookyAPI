@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BookyApi.API.Auth;
 using BookyApi.API.Db;
 using BookyApi.API.Models;
+using BookyApi.API.Services.UseCases;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,6 +60,9 @@ namespace BookyApi.API
             })
             .AddEntityFrameworkStores<BookyContext>()
             .AddDefaultTokenProviders();
+
+            services.AddUseCases();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookyApi", Version = "v1" });

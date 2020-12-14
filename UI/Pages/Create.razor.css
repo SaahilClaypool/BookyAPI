@@ -1,0 +1,13 @@
+.create {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create input {
+    min-width: 80ch;
+}
+.create textarea {
+    min-width: 80ch;
+    min-height: 20em;
+}
