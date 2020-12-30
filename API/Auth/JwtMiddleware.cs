@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -63,8 +64,10 @@ namespace BookyApi.API.Auth
                 var userId = jwtToken.Claims.First(x => x.Type == "unique_name").Value;
                 Logger.LogInformation($"Current user: {userId}");
 
-                // attach user to context on successful jwt validation
-                context.Items["User"] = await currentUserAccessor.FindById(userId);
+                context.User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() {  
+                    new(ClaimTypes.NameIdentifier, userId),
+                    new(ClaimTypes.Name, userId)
+                }));
             }
             catch (Exception e)
             {

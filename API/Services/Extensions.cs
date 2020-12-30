@@ -4,6 +4,7 @@ using System.Text.Json;
 
 using BookyApi.API.Db;
 using BookyApi.API.Models;
+using System.Security.Claims;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -33,5 +34,7 @@ namespace BookyApi.API.Services.Extensions
 
         public static IQueryable<Bookmark> BookmarkQuery(this User user, BookyContext context) =>
             context.Entry(user).Collection(user => user.Bookmarks).Query();
+        public static IQueryable<Bookmark> BookmarkQuery(this ClaimsPrincipal user, BookyContext context) =>
+            context.Bookmarks.Where(b => b.UserId == user.Identity!.Name).AsQueryable();
     }
 }

@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookyApi.API.Controllers
 {
-    [Authorize]
+    [JwtAuthorize]
     [ApiController]
     [Route("api/[controller]")]
     public class SearchController : ControllerBase
@@ -29,8 +29,7 @@ namespace BookyApi.API.Controllers
 
         [HttpGet("{query}")]
         public async Task<SearchResultDTO> Search(
-            [FromRoute] string query,
-            [FromServices] User currentUser
+            [FromRoute] string query
         )
         {
             query = System.Web.HttpUtility.UrlDecode(query);
@@ -43,7 +42,7 @@ namespace BookyApi.API.Controllers
                     INNER JOIN ""Bookmarks""
                     ON ""Bookmarks"".""Id"" = id
                 ")
-                .Where(b => b.UserId == currentUser.Id)
+                .Where(b => b.UserId == User.Identity!.Name)
                 .ToListAsync();
 
             return new()

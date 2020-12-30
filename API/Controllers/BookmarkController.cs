@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookyApi.API.Controllers
 {
-    [Authorize]
+    [JwtAuthorize()]
     [ApiController]
     [Route("api/[controller]")]
     public class BookmarkController : ControllerBase
@@ -30,20 +30,17 @@ namespace BookyApi.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Bookmark>> Index(
-            [FromServices] User currentUser
-        )
+        public async Task<IEnumerable<Bookmark>> Index()
         {
-            return await currentUser.BookmarkQuery(Context).ToListAsync();
+            return await User.BookmarkQuery(Context).ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<BookmarkDetailsDTO> Get(
-            [FromRoute] int id,
-            [FromServices] User currentUser
+            [FromRoute] int id
         )
         {
-            var bookmark = await currentUser.BookmarkQuery(Context)
+            var bookmark = await User.BookmarkQuery(Context)
                 .Where(b => b.Id == id)
                 .FirstAsync();
             return bookmark switch
@@ -57,13 +54,12 @@ namespace BookyApi.API.Controllers
         [HttpPatch("{id}")]
         public async Task<bool> Update(
             [FromRoute] int id,
-            [FromBody] BookmarkDetailsDTO bookmarkDetails,
-            [FromServices] User currentUser
+            [FromBody] BookmarkDetailsDTO bookmarkDetails
         )
         {
 
             Logger.LogInformation(bookmarkDetails.AsJson());
-            var dbBookmark = await currentUser.BookmarkQuery(Context)
+            var dbBookmark = await User.BookmarkQuery(Context)
                 .Where(b => b.Id == id)
                 .FirstAsync();
 
@@ -79,7 +75,6 @@ namespace BookyApi.API.Controllers
         [HttpGet("Populate")]
         public async Task<BookmarkDetailsDTO> Populate(
             [FromQuery] string clipboardContents,
-            [FromServices] User currentUser,
             [FromServices] PopulateFromClipboard service
         )
         {
@@ -90,8 +85,7 @@ namespace BookyApi.API.Controllers
 
         [HttpPost]
         public async Task<int> Create(
-            [FromBody] BookmarkDetailsDTO details,
-            [FromServices] User currentUser
+            [FromBody] BookmarkDetailsDTO details
         )
         {
             var bookmark = new Bookmark()
@@ -99,8 +93,7 @@ namespace BookyApi.API.Controllers
                 Content = details.Content,
                 Notes = details.Notes,
                 Url = details.Url,
-                User = currentUser,
-                UserId = currentUser.Id
+                UserId = User.Identity?.Name
             };
             Logger.LogInformation(bookmark.AsJson());
             new BookmarkValidator().ValidateAndThrow(bookmark);

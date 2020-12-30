@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using BookyApi.API.Auth;
 using BookyApi.API.Models;
+using BookyApi.API.Services.Extensions;
 using BookyApi.Shared.DTO;
 
 using Microsoft.AspNetCore.Identity;
@@ -59,10 +60,9 @@ namespace BookyApi.API.Controllers
         }
 
         [HttpGet("Refresh")]
-        public async Task<LoginResultDTO> Refresh(
-            [FromServices] User user
-        )
+        public async Task<LoginResultDTO> Refresh()
         {
+            var user = await UserManager.GetUserAsync(User);
             if (user is null)
             {
                 return new LoginResultDTO { Success = false };

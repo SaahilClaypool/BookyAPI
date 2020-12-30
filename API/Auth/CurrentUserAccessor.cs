@@ -6,6 +6,7 @@ using BookyApi.API.Db;
 using BookyApi.API.Models;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookyApi.API.Auth
@@ -15,10 +16,13 @@ namespace BookyApi.API.Auth
         private readonly IHttpContextAccessor HttpContextAccessor;
         private readonly BookyContext Context;
 
-        public CurrentUserAccessor(IHttpContextAccessor httpContextAccessor, BookyContext context)
+        public UserManager<User> Manager { get; }
+
+        public CurrentUserAccessor(IHttpContextAccessor httpContextAccessor, BookyContext context, UserManager<User> manager)
         {
             HttpContextAccessor = httpContextAccessor;
             Context = context;
+            Manager = manager;
         }
 
         public async Task<User> FindByUsername(string username)
@@ -31,6 +35,9 @@ namespace BookyApi.API.Auth
             return await Context.Users.Where(user => user.Id == id).FirstAsync();
         }
 
-        public User? CurrentUser() => (User?)HttpContextAccessor.HttpContext?.Items["User"];
+        public Task<User> CurrentUser() => FindById(Manager.GetUserId(
+            HttpContextAccessor?.HttpContext?.User));
+        public string CurrentUserId() => Manager.GetUserId(
+            HttpContextAccessor?.HttpContext?.User);
     }
 }
