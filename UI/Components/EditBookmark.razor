@@ -9,7 +9,18 @@
     </p>
     <hr />
     <strong>Personal notes</strong>
-    <textarea @onblur="async () => await SaveChanges()"  placeholder="TODO: add notes to the backend" @bind="Details.Notes"/>
+    @if(Details is not null && Details.Notes is not null)
+    {
+        @foreach (var note in Details.Notes)
+        {
+            <EditNote Note=note SaveChanges=SaveChanges Delete="async () => DeleteNote(note.Id)"/>
+        }
+
+        @if (Details.Notes.FirstOrDefault()?.Id is not null) 
+        {
+            <button @onclick="() => CreateNote()">Add new note</button>
+        }
+    }
     <small>@SaveText</small>
 </div>
 
@@ -20,16 +31,29 @@
     [Inject] HttpClient Http { get; set; }
 
     bool Saved { get; set; } = true;
+    bool Loaded { get; set; } = false;
 
-    BookmarkDetailsDTO Details { get; set; } = new();
+    BookmarkDetailsDTO? Details { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        Details.Content = Bookmark.Content;
+        if(!Loaded || Details is null) 
+        {
+            await LoadDetails();
+            Loaded = true;
+        }
+        await base.OnParametersSetAsync();
+    }
+
+    public async Task LoadDetails() 
+    {
+        Logger.LogInformation("Loading bookmark details");
+        Details = new();
+        Details.Content = Bookmark.Content ?? "";
         Details.Url = Bookmark.Url;
         Details.Id = Bookmark.Id;
         Details = await Http.GetFromJsonAsync<BookmarkDetailsDTO>($"api/Bookmark/{Details.Id}");
-        await base.OnParametersSetAsync();
+        Details.Notes = Details.Notes.Count() == 0 ? new List<NoteDTO>() { new() } : Details.Notes;
     }
 
     public async ValueTask DisposeAsync()
@@ -37,9 +61,19 @@
         await SaveChanges();
     }
 
+    public async ValueTask DeleteNote(int? id)
+    {
+        Details.Notes = Details.Notes.Where(n => n.Id != id).ToList();
+        await SaveChanges();
+    }
+
+    public async ValueTask CreateNote()
+    {
+        Details.Notes.Add(new());
+    }
+
     async ValueTask SaveChanges()
     {
-        Logger.LogInformation($"Saving bookmark... {Details.AsJson()}");
         Saved = true;
         var result = await Http.PutAsJsonAsync($"api/Bookmark/{Details.Id}", Details);
         return;

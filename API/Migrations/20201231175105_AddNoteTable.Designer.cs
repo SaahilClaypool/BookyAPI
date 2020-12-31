@@ -3,15 +3,17 @@ using System;
 using BookyApi.API.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BookyApi.API.Migrations
 {
     [DbContext(typeof(BookyContext))]
-    partial class BookyContextModelSnapshot : ModelSnapshot
+    [Migration("20201231175105_AddNoteTable")]
+    partial class AddNoteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,0 +1,11 @@
+<div>
+    <textarea @onblur="async () => await SaveChanges()" placeholder="" @bind="Note.Comment" />
+    <button @onclick="async () => await Delete()">Delete</button>
+</div>
+
+@code {
+    [Inject] public HttpClient Http { get; set; }
+    [Parameter] public NoteDTO Note { get; set; }
+    [Parameter] public Func<ValueTask> SaveChanges { get; set; }
+    [Parameter] public Func<ValueTask> Delete { get; set; }
+}

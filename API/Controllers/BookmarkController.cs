@@ -42,10 +42,17 @@ namespace BookyApi.API.Controllers
         {
             var bookmark = await User.BookmarkQuery(Context)
                 .Where(b => b.Id == id)
+                .Include(b => b.Notes)
                 .FirstAsync();
             return bookmark switch
             {
-                Bookmark mark => new BookmarkDetailsDTO { Id = mark.Id, Notes = mark.Notes, Url = mark.Url, Content = mark.Content },
+                Bookmark mark => 
+                    new BookmarkDetailsDTO { 
+                        Id = mark.Id, 
+                        Notes = mark.Notes?.Select(n => ConvertDTO.To(n)).ToList(), 
+                        Url = mark.Url, 
+                        Content = mark.Content 
+                    },
                 _ => new BookmarkDetailsDTO()
             };
         }
@@ -61,10 +68,15 @@ namespace BookyApi.API.Controllers
             Logger.LogInformation(bookmarkDetails.AsJson());
             var dbBookmark = await User.BookmarkQuery(Context)
                 .Where(b => b.Id == id)
+                .Include(b => b.Notes)
                 .FirstAsync();
 
             if (dbBookmark is null) return false;
-            dbBookmark.Notes = bookmarkDetails.Notes;
+            dbBookmark.Notes = bookmarkDetails.Notes
+                .Where(n => n.Comment.Trim().Length > 0) // HACK to ignore notes from the front end that are empty
+                .Select(ConvertDTO.From)
+                .ToList();
+            Logger.LogInformation($"NOTE IDS: {string.Join(",", dbBookmark.Notes.Select(n => n.Id))}");
             new BookmarkValidator().ValidateAndThrow(dbBookmark);
             await Context.SaveChangesAsync();
             // TODO: pull in notes
@@ -91,7 +103,7 @@ namespace BookyApi.API.Controllers
             var bookmark = new Bookmark()
             {
                 Content = details.Content,
-                Notes = details.Notes,
+                Notes = details.Notes.Select(ConvertDTO.From).ToList(),
                 Url = details.Url,
                 UserId = User.Identity?.Name
             };

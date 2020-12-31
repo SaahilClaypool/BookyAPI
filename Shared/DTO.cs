@@ -20,8 +20,15 @@ namespace BookyApi.Shared.DTO
     {
         public string Url { get; set; } = null!;
         public string Content { get; set; } = null!;
-        public string Notes { get; set; } = null!;
+        public List<NoteDTO> Notes { get; set; } = null!;
         public int? Id { get; set; }
+    }
+
+    public class NoteDTO
+    {
+        public int? Id { get; set; }
+        public string Comment { get; set; } = "";
+        public string TextFragment { get; set; } = "";
     }
 
     public class LoginDTO

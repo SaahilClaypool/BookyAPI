@@ -23,6 +23,11 @@ namespace BookyApi.API.Db
                 .HasMany(u => u.Bookmarks)
                 .WithOne(b => b.User!)
                 .HasForeignKey(b => b.UserId!);
+            modelBuilder.Entity<Bookmark>()
+                .HasMany(b => b.Notes)
+                .WithOne(n => n.Bookmark!)
+                .HasForeignKey(n => n.BookmarkId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

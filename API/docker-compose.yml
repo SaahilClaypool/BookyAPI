@@ -5,7 +5,7 @@ services:
 
   db:
     image: postgres
-    restart: always
+    restart: never
     environment:
       POSTGRES_PASSWORD: example
     ports:
@@ -15,6 +15,6 @@ services:
 
   adminer:
     image: adminer
-    restart: always
+    restart: never
     ports:
       - 8180:8080

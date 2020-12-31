@@ -11,6 +11,18 @@ Goal: simple rest API to create bookmarks with url, content, and tags (maybe per
 
 - partial inspiration: [Memex](https://github.com/WorldBrain/Memex)
 
+## Feature List
+
+- [x] CRUD for simple bookmarks
+- [x] Search-on-type
+    - [ ] Improve back end with Postgres text search
+- [ ] Bookmark should have many notes (which are optional text fragment + comments)
+- [ ] Tags
+- [ ] Paging ala https://use-the-index-luke.com/no-offset
+- [ ] Chrome extension to snip page content using https://github.com/mozilla/readability
+    - [ ] UI would need to support longer articles with summaries 
+    - [ ] Links should use text fragements to link to content
+
 ## Connecting to https://api.elephantsql.com/
 
 (this is the easiest free PSQL tier I could find).
