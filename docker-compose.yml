@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    environment:
+      - SERVER_URLS=https://*:5001;http://*:5000
+    ports:
+      - 5000:5000
+      - 5001:5001
+    volumes:
+      - ./:/app
+    depends_on:
+      - redis
+      - db
+  redis:
+    image: "redis:alpine"
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - ~/.docker/postgres-data:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    ports:
+      - 8180:8080
