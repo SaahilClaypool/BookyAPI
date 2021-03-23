@@ -1,11 +1,13 @@
 # Booky API
 
+> NOTE: inspiration / work has moved to my [SearchStory](https://github.com/SaahilClaypool/SearchStory)
+
 Link: https://bookyapi.azurewebsites.net/login
 
 Goal: simple rest API to create bookmarks with url, content, and tags (maybe personal notes).
 
 - Hosted on Azure App service (Free tier)
-- Database hosted on https://api.elephantsql.com/ (Free tier)
+- Database hosted on https://elephantsql.com/ (Free tier)
 
 ## Resources
 
@@ -23,7 +25,7 @@ Goal: simple rest API to create bookmarks with url, content, and tags (maybe per
     - [ ] UI would need to support longer articles with summaries 
     - [ ] Links should use text fragements to link to content
 
-## Connecting to https://api.elephantsql.com/
+## Connecting to https://elephantsql.com/
 
 (this is the easiest free PSQL tier I could find).
 
